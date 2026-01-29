@@ -50,7 +50,7 @@ def get_circ(binary):
 
     def cost(params):
         x0, y0, r = params
-        coords = draw.circle(y0, x0, r, shape=image.shape)
+        coords = draw.disk((y0, x0), r, shape=image.shape)
         template = np.zeros_like(image)
         template[coords] = 1
         return -np.sum(template == image)
@@ -158,7 +158,7 @@ def create_pred(model, tens, mask, coords_crop, original_sz, tta='no'):
     full_prob = np.stack([full_prob_0, full_prob_2, full_prob_3], axis=2) # background, artery, vein
 
     full_pred = np.argmax(full_prob, axis=2)
-    full_rgb_pred = label2rgb(full_pred, colors=['black', 'red', 'blue'])
+    full_rgb_pred = label2rgb(full_pred, colors=['red', 'blue']) # label 0 is considered background
 
     return np.clip(full_prob, 0,1), full_rgb_pred
 
@@ -177,6 +177,7 @@ if __name__ == '__main__':
     else:  #cpu
         device = torch.device(args.device)
 
+    
     tta = args.tta
 
     model_name = 'big_wnet'

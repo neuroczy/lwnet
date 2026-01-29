@@ -27,9 +27,9 @@ call = 'mv data/STARE/labels-ah data/STARE/manual && mv data/STARE/stare-images 
 os.system(call)
 
 call ='wget http://webeye.ophth.uiowa.edu/abramoff/AV_groundTruth.zip ' \
-      '&& unzip AV_groundTruth.zip -d data/DRIVE && rm AV_groundTruth.zip ' \
-      '&& mkdir data/DRIVE/manual_av && mv data/DRIVE/AV_groundTruth/training/av/* data/DRIVE/manual_av ' \
-      '&& mv data/DRIVE/AV_groundTruth/test/av/* data/DRIVE/manual_av && rm -r data/DRIVE/AV_groundTruth'
+    '&& unzip AV_groundTruth.zip -d data/DRIVE && rm AV_groundTruth.zip ' \
+    '&& mkdir data/DRIVE/manual_av && mv data/DRIVE/AV_groundTruth/training/av/* data/DRIVE/manual_av ' \
+    '&& mv data/DRIVE/AV_groundTruth/test/av/* data/DRIVE/manual_av && rm -r data/DRIVE/AV_groundTruth'
 os.system(call)
 
 # call ='wget http://iflexis.com/downloads/HRF_AV_GT.zip ' \
@@ -37,25 +37,25 @@ os.system(call)
 # os.system(call)
 
 call = '(wget https://www5.cs.fau.de/fileadmin/research/datasets/fundus-images/all.zip ' \
-       '&& unzip all.zip -d data/HRF && mv data/HRF/manual1 data/HRF/manual' \
-       '&& rm all.zip)'
+    '&& unzip all.zip -d data/HRF && mv data/HRF/manual1 data/HRF/manual' \
+    '&& rm all.zip)'
 os.system(call)
 
 
 call ='wget http://personalpages.manchester.ac.uk/staff/niall.p.mcloughlin/DRHAGIS.zip ' \
-      '&& unzip DRHAGIS.zip -d data/DRHAGIS && rm DRHAGIS.zip && mv data/DRHAGIS/DRHAGIS data/DR_HAGIS ' \
-      '&& rm -r data/DRHAGIS && mv data/DR_HAGIS/Fundus_Images data/DR_HAGIS/images ' \
-      '&& mv data/DR_HAGIS/Mask_images data/DR_HAGIS/mask' \
-      '&& mv data/DR_HAGIS/Manual_Segmentations data/DR_HAGIS/manual' \
-      '&& rm data/DR_HAGIS/.DS_Store && rm data/DR_HAGIS/images/.DS_Store ' \
-      '&& rm data/DR_HAGIS/manual/.DS_Store && rm data/DR_HAGIS/mask/.DS_Store && mv data/DR_HAGIS data/DR-HAGIS'
+    '&& unzip DRHAGIS.zip -d data/DRHAGIS && rm DRHAGIS.zip && mv data/DRHAGIS/DRHAGIS data/DR_HAGIS ' \
+    '&& rm -r data/DRHAGIS && mv data/DR_HAGIS/Fundus_Images data/DR_HAGIS/images ' \
+    '&& mv data/DR_HAGIS/Mask_images data/DR_HAGIS/mask' \
+    '&& mv data/DR_HAGIS/Manual_Segmentations data/DR_HAGIS/manual' \
+    '&& rm data/DR_HAGIS/.DS_Store && rm data/DR_HAGIS/images/.DS_Store ' \
+    '&& rm data/DR_HAGIS/manual/.DS_Store && rm data/DR_HAGIS/mask/.DS_Store && mv data/DR_HAGIS data/DR-HAGIS'
 os.system(call)
-
 
 print('preparing data')
 
 #######################################################################################################################
 # process drive data, generate CSVs
+
 path_ims = 'data/DRIVE/images'
 path_masks = 'data/DRIVE/mask'
 path_gts = 'data/DRIVE/manual'
@@ -80,16 +80,16 @@ test_gt_names = all_gt_names[:num_ims//2]
 train_gt_names = all_gt_names[num_ims//2:]
 
 df_drive_all = pd.DataFrame({'im_paths': all_im_names,
-                             'gt_paths': all_gt_names,
-                             'mask_paths': all_mask_names})
+                            'gt_paths': all_gt_names,
+                            'mask_paths': all_mask_names})
 
 df_drive_train = pd.DataFrame({'im_paths': train_im_names,
-                               'gt_paths': train_gt_names,
-                               'mask_paths': train_mask_names})
+                            'gt_paths': train_gt_names,
+                            'mask_paths': train_mask_names})
 
 df_drive_test = pd.DataFrame({'im_paths': test_im_names,
-                              'gt_paths': test_gt_names,
-                               'mask_paths': test_mask_names})
+                            'gt_paths': test_gt_names,
+                            'mask_paths': test_mask_names})
 
 df_drive_train, df_drive_val = df_drive_train[:16], df_drive_train[16:]
 
@@ -162,16 +162,16 @@ train_gt_names = all_gt_names[ :8]
 test_gt_names  = all_gt_names[8: ]
 
 df_chasedb_all = pd.DataFrame({'im_paths': all_im_names,
-                             'gt_paths': all_gt_names,
-                             'mask_paths': all_mask_names})
+                            'gt_paths': all_gt_names,
+                            'mask_paths': all_mask_names})
 
 df_chasedb_train = pd.DataFrame({'im_paths': train_im_names,
-                              'gt_paths': train_gt_names,
-                              'mask_paths': train_mask_names})
+                            'gt_paths': train_gt_names,
+                            'mask_paths': train_mask_names})
 
 df_chasedb_test = pd.DataFrame({'im_paths': test_im_names,
-                              'gt_paths': test_gt_names,
-                              'mask_paths': test_mask_names})
+                            'gt_paths': test_gt_names,
+                            'mask_paths': test_mask_names})
 
 num_ims = len(df_chasedb_train)
 tr_ims = int(0.8*num_ims)
@@ -277,7 +277,7 @@ print('HRF prepared')
 path_gts_resized = 'data/HRF/manual_av_resized'
 os.makedirs(path_gts_resized, exist_ok=True)
 print('preparing HRF training set for A/V segmentation:')
-for i in tqdm(range(len(test_im_names))):
+for i in tqdm(range(len(all_im_names))):
     n= all_gt_names[i]
     n_av = n.replace('manual', 'manual_av').replace('.tif', '_AVmanual.png')
 
@@ -305,20 +305,22 @@ for i in tqdm(range(len(test_im_names))):
 
 av_test = pd.concat([df_hrf_train, df_hrf_val], axis=0)
 
+print(av_test)
+
 av_im_paths = [n.replace('images_resized/', 'images/') for n in av_test.im_paths]
-av_gt_paths = [n.replace('manual_resized/', 'manual_av/') for n in av_test.gt_paths]
+av_gt_paths = [n.replace('manual_resized/', 'manual_av/').replace('.tif', '_AVmanual.png') for n in av_test.gt_paths]
 av_mask_paths = [n.replace('mask_resized/', 'mask/') for n in av_test.mask_paths]
 av_test_df = pd.DataFrame(list(zip(av_im_paths,av_gt_paths,av_mask_paths)), columns=['im_paths','gt_paths', 'mask_paths'])
 
 av_train, av_val = df_hrf_test[:24], df_hrf_test[24:]
 
 av_train_im_paths = [n.replace('images/', 'images_resized/') for n in av_train.im_paths]
-av_train_gt_paths = [n.replace('manual_av/', 'manual_av_resized/') for n in av_train.gt_paths]
+av_train_gt_paths = [n.replace('manual/', 'manual_av_resized/').replace('.tif', '_AVmanual.png') for n in av_train.gt_paths]
 av_train_mask_paths = [n.replace('mask/', 'mask_resized/') for n in av_train.mask_paths]
 av_train_df = pd.DataFrame(list(zip(av_train_im_paths,av_train_gt_paths,av_train_mask_paths)), columns=['im_paths','gt_paths', 'mask_paths'])
 
 av_val_im_paths = [n.replace('images/', 'images_resized/') for n in av_val.im_paths]
-av_val_gt_paths = [n.replace('manual_av/', 'manual_av_resized/') for n in av_val.gt_paths]
+av_val_gt_paths = [n.replace('manual/', 'manual_av_resized/').replace('.tif', '_AVmanual.png') for n in av_val.gt_paths]
 av_val_mask_paths = [n.replace('mask/', 'mask_resized/') for n in av_val.mask_paths]
 av_val_df = pd.DataFrame(list(zip(av_val_im_paths,av_val_gt_paths,av_val_mask_paths)), columns=['im_paths','gt_paths', 'mask_paths'])
 
@@ -327,6 +329,7 @@ av_val_df.to_csv('data/HRF/val_av.csv', index=False)
 av_test_df.to_csv('data/HRF/test_av.csv')
 
 print('HRF A/V prepared')
+
 # ########################################################################################################################
 path_ims = 'data/STARE/images'
 path_masks = 'data/STARE/mask'
@@ -342,8 +345,8 @@ all_mask_names = [osp.join(path_masks, n) for n in all_mask_names]
 all_gt_names = [osp.join(path_gts, n) for n in all_gt_names]
 
 df_stare_all = pd.DataFrame({'im_paths': all_im_names,
-                             'gt_paths': all_gt_names,
-                             'mask_paths': all_mask_names})
+                            'gt_paths': all_gt_names,
+                            'mask_paths': all_mask_names})
 df_stare_all.to_csv('data/STARE/test_all.csv', index=False)
 print('STARE prepared')
 ########################################################################################################################
@@ -366,8 +369,8 @@ test_im_names = [osp.join(path_ims, n) for n in test_im_names]
 test_gt_names = [osp.join(path_gts, n) for n in test_gt_names]
 
 df_wide_test = pd.DataFrame({'im_paths': test_im_names,
-                              'gt_paths': test_gt_names,
-                              'mask_paths': test_mask_names})
+                            'gt_paths': test_gt_names,
+                            'mask_paths': test_mask_names})
 
 df_wide_test.to_csv('data/AV-WIDE/test_all.csv', index=False)
 print('AV-WIDE prepared')
@@ -385,8 +388,8 @@ all_mask_names = [osp.join(path_masks, n) for n in all_mask_names]
 all_gt_names = [osp.join(path_gts, n) for n in all_gt_names]
 
 df_drhagis_all = pd.DataFrame({'im_paths': all_im_names,
-                             'gt_paths': all_gt_names,
-                             'mask_paths': all_mask_names})
+                            'gt_paths': all_gt_names,
+                            'mask_paths': all_mask_names})
 df_drhagis_all.to_csv('data/DR-HAGIS/test_all.csv', index=False)
 print('DR-HAGIS prepared')
 

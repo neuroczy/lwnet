@@ -49,7 +49,7 @@ def get_circ(binary):
 
     def cost(params):
         x0, y0, r = params
-        coords = draw.circle(y0, x0, r, shape=image.shape)
+        coords = draw.disk((y0, x0), r, shape=image.shape)
         template = np.zeros_like(image)
         template[coords] = 1
         return -np.sum(template == image)
